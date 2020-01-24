@@ -4,6 +4,48 @@ import Head from "next/head";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
+var firebase = require('firebase/app');
+require('firebase/auth');
+require('firebase/database');
+require('firebase/firestore');
+
+var app;
+var auth;
+var db;
+ 
+if (!firebase.apps.length) {
+var app = firebase.initializeApp({
+  apiKey: "AIzaSyDsFYYLAAawpDwCAqx3xtr3pwJ9H2W5ve0",
+  authDomain: "podsi-698db.firebaseapp.com",
+  databaseURL: "https://podsi-698db.firebaseio.com",
+  projectId: "podsi-698db",
+  storageBucket: "podsi-698db.appspot.com",
+  messagingSenderId: "419080800741",
+  appId: "1:419080800741:web:971d4f0450ae033b45470c",
+  measurementId: "G-016C5ZPB9S"
+ });
+ auth = firebase.auth();
+ db = firebase.firestore();
+
+ db.collection('password').get().then(snapshot => {
+  //console.log(snapshot.docs);
+  setupGuides(snapshot.docs);
+});
+
+const setupGuides = (data) => {
+  data.forEach(doc => {
+    const guide = doc.data();
+    console.log(guide);
+  });
+}
+
+//db.settings({ timestampsInSnapshots: true });
+ console.log('');
+}
+
+
+
+
 const voiceEvent = (ev,n) => {
   var audii = document.getElementsByTagName('audio')[n];
     if(ev == 'play'){
@@ -116,8 +158,7 @@ const Home = ({ posts }) => (
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
  <script src="https://guzee.glitch.me/p5.speech.js"></script>
- <script src="https://guzee.glitch.me/sketch.js"></script>
-      
+ <script src="https://guzee.glitch.me/sketch.js"></script>  
     </Head>
 
   <div>
