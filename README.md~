@@ -1,14 +1,13 @@
-
 ## PODSITE
 
 Bu Github havuzu, bir blog olan Podsite'a aittir
 
-## PODSITE NEDİR?
+##PODSITE NEDİR?
 
 Podsite, podcast ve blog'u birleştiren, aslında ikisinin birbiriyle ne kadar bağlantılı olduğunu gösteren müthiş bir tasarıma 
 sahip web sitesidir. Ayrıca içinde bir sesli asistan da bulunur.
 
-## SESLİ ASİSTAN NEDİR
+##SESLİ ASİSTAN NEDİR
 
 Sesli asistan, günlük hayatta işinizi kolaylaştırmak için sesli komutlarla kullanabileceğiniz bir yapay asistandır. Bizim
 asistanımızın ismi Akçay'dır ve yazılımı bana aittir. Fakat tüm web sitelerinde uygulanabilmek üzere, yarışma zamanı içerisinde
@@ -17,7 +16,7 @@ asistanımızın ismi Akçay'dır ve yazılımı bana aittir. Fakat tüm web sit
 Glitch, Heroku ve Github'ın birleşmiş halidir ve web geliştiricilere mükemmel imkanlar sunar. https://www.glitch.com adresine
 girip akcay'ı arattığınız takdirde kodlarımıza ulaşabilirsiniz.
 
-## PODCAST VE BLOG NASIL BİRLEŞEBİLİR? BUNUN SONUCUNDA ORTAYA GÜZEL BİR ÜRÜN ÇIKABİLİR Mİ?
+##PODCAST VE BLOG NASIL BİRLEŞEBİLİR? BUNUN SONUCUNDA ORTAYA GÜZEL BİR ÜRÜN ÇIKABİLİR Mİ?
 
 Podcast ve blog rahatlıkla birleşebilir. Hatta ikisi birleştiği taktirde ikisi de birbirini iyileştirir. Çünkü bu sayede Podcast
 yayınlamadan önce blogu yazıp konuşma öncesinde daha iyi bir araştırma yapabilirsiniz. Ve Blog'u Podcast ile birleştirirseniz,
