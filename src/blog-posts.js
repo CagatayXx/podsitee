@@ -23,6 +23,14 @@ export const getPosts = () => {
       date: "1 Aralık 2019",
       image: "",
       audio: "atdan-daha-iyi.ogg"
+    },
+    {
+      title: "Gene Merhaba dünya!",
+      slug: "gene-merhaba",
+      details: require("./posts/merhaba.md").default,
+      date: "1 Aralık 2019",
+      image: "",
+      audio: "atdan-daha-iyi.ogg"
     }
   ];
 };
