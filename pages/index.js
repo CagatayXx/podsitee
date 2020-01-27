@@ -3,47 +3,16 @@ import fetch from "isomorphic-unfetch";
 import Head from "next/head";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+/*
+import AOS from "aos";
+import "aos/dist/aos.css";*/
+
 
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
 require('firebase/firestore');
 
-var app;
-var auth;
-var db;
- 
-if (!firebase.apps.length) {
-var app = firebase.initializeApp({
-  apiKey: "AIzaSyDsFYYLAAawpDwCAqx3xtr3pwJ9H2W5ve0",
-  authDomain: "podsi-698db.firebaseapp.com",
-  databaseURL: "https://podsi-698db.firebaseio.com",
-  projectId: "podsi-698db",
-  storageBucket: "podsi-698db.appspot.com",
-  messagingSenderId: "419080800741",
-  appId: "1:419080800741:web:971d4f0450ae033b45470c",
-  measurementId: "G-016C5ZPB9S"
- });
- auth = firebase.auth();
- db = firebase.firestore();
-
- db.collection('password').get().then(snapshot => {
-  //console.log(snapshot.docs);
-  setupGuides(snapshot.docs);
-});
-
-const setupGuides = (data) => {
-  data.forEach(doc => {
-    const guide = doc.data();
-    console.log(guide);
-  });
-}
-
-//db.settings({ timestampsInSnapshots: true });
- console.log('');
-}
-
-//sa
 
 
 const voiceEvent = (ev,n) => {
@@ -76,7 +45,6 @@ if(t=='mini'){
   if(i == 'over'){
     moverlay.style = 'background-color: rgba(10,10,10,0.6);color:white';
     mtext.style = 'color:rgba(255,255,255,0.1)';
-    console.log(moverlay.style.margin);
   }
 
   else if(i == 'out'){
@@ -137,9 +105,117 @@ console.log(tblog);
   */
 }
 
-const funktin = () => {
-  document.getElementById('imaj').style.left = '50vw';
-  console.log(document.getElementById('imaj').left='500px');
+if (typeof window !== 'undefined') {
+  AOS.init();
+
+
+
+
+var app;
+var auth;
+var db;
+ 
+if (!firebase.apps.length) {
+var app = firebase.initializeApp({
+  apiKey: "AIzaSyDsFYYLAAawpDwCAqx3xtr3pwJ9H2W5ve0",
+  authDomain: "podsi-698db.firebaseapp.com",
+  databaseURL: "https://podsi-698db.firebaseio.com",
+  projectId: "podsi-698db",
+  storageBucket: "podsi-698db.appspot.com",
+  messagingSenderId: "419080800741",
+  appId: "1:419080800741:web:971d4f0450ae033b45470c",
+  measurementId: "G-016C5ZPB9S"
+ });
+ auth = firebase.auth();
+ db = firebase.firestore();
+
+ db.collection('posts').get().then(snapshot => {
+  //console.log(snapshot.docs);
+  setupGuides(snapshot.docs);
+});
+/*
+db.collection('posts').get().then(snapshot => {
+  //console.log(snapshot.docs);
+  setupGuides2(snapshot.docs);
+});
+*/
+//db.settings({ timestampsInSnapshots: true });
+ console.log('');
+}
+
+var fss = [];
+
+const setupGuides = (data) => {
+  data.forEach((doc, index) => {
+    const guide = doc.data();
+
+    console.log("Al dat: " +  guide);
+
+    function a() {
+      console.log("sa");
+    }
+
+    if(index < 3){
+      console.log(index);
+      document.getElementById('alan1').innerHTML += '<div data-aos="fade-up" class="miniblog">'+
+      '<div style="margin-left: 0vw;width:18vw;height: 44vh;overflow: hidden;text-align: center; float: left;margin-right: 5vw">'+
+          '<img class="mini-image" style="border-radius: 5px;width:100%;height:45%;" src="'+guide.image+'"></img>'+
+          '<div class="text"><p class="title" style="padding-top: 0.5vh;font-weight: bold;font-size: 200%;text-align:center;margin:0;margin-bottom: -1.5vh">'+guide.title+'</p>'+
+          '<p style="font-size: 120%">'+guide.details+'</p>'+
+      '</div>'+
+      '</div>'+
+      '<div class="mini-overlay"><span onclick="document.getElementsByTagName(\'audio\')['+index+'].play();"><i  style="cursor: pointer; margin-right: 1vw; margin-left: -0.3vw; font-size: 250%;height: 2.5vw;" class="fas fa-play"></i></span><span onclick="document.getElementsByTagName(\'audio\')['+index+'].pause();"><i  style="cursor: pointer; margin-right: 1vw; margin-left: -0.3vw; font-size: 250%;height: 2.5vw;" class="fas fa-pause"></i></span><span onclick="location.href=\''+guide.slug+'\'"><i  style="height: 2.5vw;;cursor: pointer; margin-right: 0.5vw; margin-left: -0.3vw; font-size: 250%" class="fas fa-eye"></i></span></div>'+
+      '</div>';
+    }
+
+    document.getElementById('alan2').innerHTML += '<div data-aos="zoom-in"  class="blog">'+
+    '<img class="image" src="'+guide.image+'" style=\'width:18vw;height: 18vh;float: left;margin-right: 1.5vw;border-radius: 5px\'></img>'+
+    '<div class="text" style=\'width: 70vw;height:15vh;\'>'+
+        '<p class="title" style=\'padding-top: 0.5vh;font-weight: bold; font-size: 200%; text-align: center; margin:0\'>'+guide.title+'</p>'+
+        '<p class="intext"> '+guide.details+' </p>'+
+        '<p class="date">'+guide.date+'</p>'+
+    '</div>'+
+    '<div class="overlay"><span onclick="document.getElementsByTagName(\'audio\')['+index+'].play();"><i style="cursor: pointer; width: 2.2vw;margin-left: -0.6vw; margin-right: 0.2vw;" class="fas fa-play"></i></span><span onclick="document.getElementsByTagName(\'audio\')['+index+'].pause();"><i  style="cursor: pointer; width: 2.2vw;margin-left: 0.2vw; margin-right: 0.2vw;" class="fas fa-pause"></i></span><span onclick="location.href = \''+guide.slug+'\'"><i  style="cursor: pointer; width: 3vw;margin-left: 0.2vw; margin-right: 0.5vw;" class="fas fa-eye"></i></span></div>'+
+    '<audio style= "visibility: hidden" class="audi" controls>'+
+            '<source src= "'+guide.audio+'" type="audio/ogg"></source>'+
+          'Your browser does not support the audio element.'+
+          '</audio>'+
+    '</div>';
+
+    fss[fss.length] = () => {document.getElementsByClassName('blog')[index].addEventListener("mouseover", function(){
+      deneme(index,'over','norm');
+    });
+}
+    
+fss[fss.length] = () => {document.getElementsByClassName('blog')[index].addEventListener("mouseout", function(){
+  deneme(index,'out','norm');
+});
+}
+
+fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].addEventListener("mouseover", function(){
+  deneme(index,'over','mini');
+});
+}
+
+fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].addEventListener("mouseout", function(){
+deneme(index,'out','mini');
+});
+}
+
+  });
+
+  console.log(fss);
+
+  for(var i = 0;fss[i] != undefined;i++){
+    fss[i]();
+  }
+
+  /*document.getElementsByClassName('blog').addEventListener('click', function() {
+    console.log('sa');
+  });*/
+}
+
+
 }
 
 const Home = ({ posts }) => (
@@ -151,7 +227,14 @@ const Home = ({ posts }) => (
       <link rel="stylesheet" href="/all.css"></link>
       <script src="/all.js"></script>
 
+
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
       <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+  </script>
+
+
   <script src='/script.js'></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
@@ -163,7 +246,7 @@ const Home = ({ posts }) => (
 
   <div>
 
-    <div style= {{ marginLeft: '18vw', width: '32vw', height: '59vh', border: '1px solid rgb(25,25,25)'}}>
+    <div data-aos='fade-in' style= {{ marginBottom: '-5vh', marginTop: '-5vh', marginLeft: '18vw', width: '32vw', height: '59vh', border: '1px solid rgb(25,25,25)'}}>
     <img style= {{ width: '100%', marginBottom: '-30%', height:'100%'}} src='/cerceve.gif'></img>  
     <img style= {{ marginLeft: '7.7%', width: '85%', marginTop: '-100%', height: '15vh'}} src="/gif.gif"></img>
     </div>
@@ -172,28 +255,15 @@ const Home = ({ posts }) => (
 
 <div style={{ float: 'left', paddingLeft: '2vw', width: '1px', height:'1px', marginBottom: '0vh' }}></div>
 
+<div id='alan1'></div>
 {[posts[0],posts[1],posts[2]].map((post,index) => (
   
-<div className="miniblog" onMouseOver= {() => {deneme(index, 'over', 'mini')}} onMouseOut= {() => {deneme(index, 'out', 'mini')}}>
-
-
-<div style={{ marginLeft: "0vw",width:"18vw",height:"44vh",overflow: "hidden",textAlign: "center", float: "left",marginRight: "5vw" }}>
-    <img className="mini-image" style={{ borderRadius: "5px",width:"100%",height:"45%" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR6RCB17kHh1r9Rcyd8p7cC2GiRL-PL41EpNjqMd9tvde7eLviz"></img>
-    <div className="text"><p className="title" style={{ paddingTop: "0.5vh",fontWeight: "bold",fontSize: "200%",textAlign:"center",margin:0,marginBottom: "-1.5vh" }}>{post.title}</p>
-    <p style={{ fontSize: "120%" }}>{ post.details }</p>
-</div>
-
-</div>
-
-<div className="mini-overlay"><span onClick={() => { voiceEvent('play', index) }}><i  style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-play"></i></span> <span onClick={() => { voiceEvent('pause', index) }}><i style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-pause"></i></span> <Link href={post.slug}><span><i style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-eye"></i></span></Link></div>
-
-</div>
-
+<div></div>
 ))}
 
 
-<div style= {{ marginBottom: "58vh", width: '0.5vw', height:'0.5vh' }}></div>
-
+<div style= {{ marginBottom: "52vh", width: '0.5vw', height:'0.5vh' }}></div>
+<div id="alan2"></div>
     {posts.map((post, index) => (
 //      <div className="mini-overlay"><button style= {{ marginLeft: '-1vw' ,border: 'none',background: 'rgba(0,0,0,0)', color: 'rgba(250,250,250,1)', width:'3vw'}} onMouseOver={() => { voiceEvent('play', index) }}><i onMouseOver={() => { voiceEvent('play', index) }} style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-play"></i></button> <button style= {{border: 'none',background: 'rgba(0,0,0,0)', color: 'rgba(250,250,250,1)', width:'3vw'}} onMouseOver={() => { voiceEvent('play', index) }}><i onMouseOver={() => { voiceEvent('play', index) }} style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-pause"></i></button> <button style= {{border: 'none',background: 'rgba(0,0,0,0)', color: 'rgba(250,250,250,1)', width:'3vw'}} onMouseOver={() => { voiceEvent('play', index) }}><i onMouseOver={() => { voiceEvent('play', index) }} style={{ cursor: "pointer", marginRight: "0.5vw", marginLeft: "-0.3vw", fontSize: "250%" }} className="fas fa-download"></i></button></div>
 
@@ -209,9 +279,9 @@ const Home = ({ posts }) => (
         <div className="blog-date">{post.date}</div>
       </div>
 */
-
-<div data-aos='fade-in'  className="blog" onMouseOver= {() => {deneme(index, 'over', 'norm')}} onMouseOut= {() => {deneme(index, 'out', 'norm')}}>
-<img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR6RCB17kHh1r9Rcyd8p7cC2GiRL-PL41EpNjqMd9tvde7eLviz" style={{width:"18vw",height: "18vh",float: "left",marginRight: "1.5vw",borderRadius: "5px"}}></img>
+/*
+<div data-aos='zoom-in'  className="blog" onMouseOver= {() => {deneme(index, 'over', 'norm')}} onMouseOut= {() => {deneme(index, 'out', 'norm')}}>
+<img className="image" src={post.image} style={{width:"18vw",height: "18vh",float: "left",marginRight: "1.5vw",borderRadius: "5px"}}></img>
 <div className="text" style={{width: "70vw",height:"15vh"}}>
     <p className="title" style={{paddingTop: "0.5vh",fontWeight: "bold",fontSize: "200%",textAlign:"center",margin:0}}>{ post.title }</p>
     <p className="intext"> { post.details } </p>
@@ -224,7 +294,10 @@ const Home = ({ posts }) => (
       Your browser does not support the audio element.
       </audio>
 </div>
-    ))}
+
+*/
+<div></div>
+))}
 
     <style jsx>{`
 .blog svg {
@@ -269,6 +342,8 @@ const Home = ({ posts }) => (
 
 Home.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
+
+
   const res = await fetch("http://localhost:3000/api/posts");
   const json = await res.json();
   return { posts: json.posts };

@@ -24,7 +24,8 @@ body {
 
 .blog {
     cursor:default;
-    margin-bottom: 7vh;
+    margin-bottom: 3vh;
+    margin-left: 5vh;
 }
 
 .overlay {
@@ -55,8 +56,9 @@ body {
 }
 
 .miniblog {
-    margin-top: 10vh;
+    margin-top: 18vh;
     margin-left:2.2vw;
+    margin-bottom: -15vh;
 }
 
 .mini-overlay {

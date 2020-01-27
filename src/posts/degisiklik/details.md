@@ -1,0 +1,1 @@
+Bu gün de değişik. Ne güzel ama!

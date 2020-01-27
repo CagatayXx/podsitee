@@ -1,36 +1,33 @@
+var firebase = require('firebase/app');
+require('firebase/auth');
+require('firebase/database');
+require('firebase/firestore');
+
 export const getPosts = () => {
   return [
     {
-      title: "1500TL ödül! Sen de yarışmaya katıl!",
-      slug: "yarisma",
-      details: require("./posts/yarisma.md").default,
-      date: "5 Aralık 2019",
-      image: "/resim.png",
-      audio: "atdan-daha-iyi.ogg"
+      title: require("./posts/yarisma/title.md").default,
+      slug: require("./posts/yarisma/slug.md").default,
+      details: require("./posts/yarisma/details.md").default,
+      date: require("./posts/yarisma/date.md").default,
+      image: require("./posts/yarisma/image.md").default,
+      audio: "/atdan-daha-iyi.ogg"
     },
     {
-      title: "Örnek yazı",
-      slug: "ornek-yazi",
-      details: require("./posts/ornek-yazi.md").default,
-      date: "3 Aralık 2019",
-      image: "",
-      audio: "atdan-daha-iyi.ogg"
+      title: require("./posts/onemli/title.md").default,
+      slug: require("./posts/onemli/slug.md").default,
+      details: require("./posts/onemli/details.md").default,
+      date: require("./posts/onemli/date.md").default,
+      image: require("./posts/onemli/image.md").default,
+      audio: "/atdan-daha-iyi.ogg"
     },
     {
-      title: "Merhaba dünya!",
-      slug: "merhaba",
-      details: require("./posts/merhaba.md").default,
-      date: "1 Aralık 2019",
-      image: "",
-      audio: "atdan-daha-iyi.ogg"
-    },
-    {
-      title: "Gene Merhaba dünya!",
-      slug: "gene-merhaba",
-      details: require("./posts/merhaba.md").default,
-      date: "1 Aralık 2019",
-      image: "",
-      audio: "atdan-daha-iyi.ogg"
+      title: require("./posts/degisiklik/title.md").default,
+      slug: require("./posts/degisiklik/slug.md").default,
+      details: require("./posts/degisiklik/details.md").default,
+      date: require("./posts/degisiklik/date.md").default,
+      image: require("./posts/degisiklik/image.md").default,
+      audio: "/atdan-daha-iyi.ogg"
     }
   ];
 };
