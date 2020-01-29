@@ -21,59 +21,101 @@ var slg;
 var user;
 
 const makecommit = (username,userimage,date,comment) => {
+
   
 if(comment.charAt(29) != '')
 {  
-  var docRef = db.collection("posts").doc(slg);
-  //console.log(docRef.docs);
+  console.log(user);
+if( user != "" ){
+  mkk(username,userimage,date,comment);
+}
+
+else {
+  var space = document.createElement('div');
+  var login_div = document.createElement('div');
   
-  docRef.get().then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data().comments);
-        var news = [];
+  space.id = 'space';
+  login_div.id = 'logdiv'
+  
+  space.innerHTML = '<div onclick="var space = document.getElementById(\'space\');space.parentNode.removeChild(space);var logdiv = document.getElementById(\'logdiv\');logdiv.parentNode.removeChild(logdiv);" style="width:100vw;height:100vh;z-index:5;position:fixed;background:rgba(0,0,0,0.5);left:0;top:0;"></div>'
+  login_div.innerHTML = '<div data-aos="zoom-in" style="text-align:center;width:30vw;height:60vh;background:rgba(25,25,25,1);z-index:5;position:fixed;left:35vw;top:15vh;"><h1>Görünüşe Göre Oturum Açmamışsınız</h1><h2>Eğer adının ve fotoğrafının gözükmesini istiyorsan oturum açman gerek</h2><br /><button style="width:45%;height:10%;" id="yorum_kayit" class="auth_button">Kayıt Ol</button><br /><button style="width:45%;height:10%;" id="yorum_giris" class="auth_button">Giriş Yap</button><p></p><button style="width:45%;height:10%;color:rgb(35,35,35);background:white;" id="ziyaretci" class="auth_button ziyaretci">Yorumu Ziyaretçi Olarak Yap</button></div>'
+  
+  document.body.appendChild(space);
+  document.body.appendChild(login_div);
+ 
+document.getElementById('yorum_giris').addEventListener('click', () => {
+  space.parentNode.removeChild(space);
+  login_div.parentNode.removeChild(login_div);
+  login();
+});
 
-        var comments = doc.data().comments;
-        console.log(userimage);
-        
-        //console.log([comments,{},{}])
+document.getElementById('yorum_kayit').addEventListener('click', () => {
+  space.parentNode.removeChild(space);
+  login_div.parentNode.removeChild(login_div);
+  signup();
+});
 
-        news[news.length] = {
-          username,
-          userimage,
-          date,
-          like:'0',
-          dislike:'0',
-          comment
-        };
+document.getElementById('ziyaretci').addEventListener('click', () => {
+  space.parentNode.removeChild(space);
+  login_div.parentNode.removeChild(login_div);
+  mkk('Ziyaretçi','','19 Aralık 2020', comment);
+});
 
-        for(var i = 0;comments[i] != undefined;i++){
-          news[news.length] = comments[i];
-          console.log('bu');
-        }
+}
 
-        document.getElementById('textarea').value = '';
+  function mkk(uusername,uuserimage,ddate,ccomment) {
+    var docRef = db.collection("posts").doc(slg);
+    //console.log(docRef.docs);
+    
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+          console.log("Document data:", doc.data().comments);
+          var news = [];
+  
+          var comments = doc.data().comments;
+          console.log(uuserimage);
+          
+          //console.log([comments,{},{}])
+  
+          news[news.length] = {
+            username: uusername,
+            userimage: uuserimage,
+            date: ddate,
+            like:'0',
+            dislike:'0',
+            comment: ccomment
+          };
+  
+          for(var i = 0;comments[i] != undefined;i++){
+            news[news.length] = comments[i];
+            console.log('bu');
+          }
+  
+          document.getElementById('textarea').value = '';
+  
+          document.getElementById('newcomment').innerHTML += '<div class="comment" style="margin-left:9vw;width:55vw;margin-bottom:6vh">'+
+              '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
+                  '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+uusername+'</p>'+
+              '</div>'+
+              '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+ddate+'</p>'+
+              '<p style="height:8vh"></p>'+
+              '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+ccomment+'</p>'+
+              '<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+                  '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">0</p>'+
+                  '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">0</p>'+
+              '</div>'+
+          '</div><p></p>'
+  
+          //console.log(news);
+          console.log("Yorumunuz başarıyla oluşturuldu.")
+          var updateTimestamp = docRef.update({
+            comments: news
+          });
+          
+      }
+  })
+  }
 
-        document.getElementById('newcomment').innerHTML += '<div class="comment" style="margin-left:9vw;width:55vw;margin-bottom:6vh">'+
-            '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
-                '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+username+'</p>'+
-            '</div>'+
-            '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+date+'</p>'+
-            '<p style="height:8vh"></p>'+
-            '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+comment+'</p>'+
-            '<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
-                '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">0</p>'+
-                '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">0</p>'+
-            '</div>'+
-        '</div><p></p>'
-
-        //console.log(news);
-        console.log("Yorumunuz başarıyla oluşturuldu.")
-        var updateTimestamp = docRef.update({
-          comments: news
-        });
-        
-    }
-})
 }
 else {
   alert('Yaptığınız yorum çok kısa. En az 30 karakterden oluşmalı.');
@@ -100,6 +142,8 @@ if (typeof window !== 'undefined') {
           document.title = guide.title;
           console.log(guide.comments[0]);
     
+            document.getElementById('like_number').innerHTML = guide.like;
+
           document.getElementById('blog-pattern').innerHTML = '<div class="blog">'+
           '<h2 class="blog-title" style="margin-top: 11vh;">'+
           '<a class="title">'+guide.title+'</a>'+
@@ -109,7 +153,7 @@ if (typeof window !== 'undefined') {
           '<p class="text">'+guide.details+'</p>'+
           '<div style="color:white" class="date">'+guide.date+'</div>'+
           '</div>'+
-          '<p></p><i style="cursor: pointer;width:4.5%;height:4.5%;margin-bottom:5vh;float:left" class="fas fa-thumbs-up"></i><p style="text-decoration: underline;font-size:130%;margin-left:5%;margin-top:3.3%;cursor: pointer;">Bu Yazıyı Beğen</p>'+
+          //'<p></p><i style="cursor: pointer;width:4.5%;height:4.5%;margin-bottom:5vh;float:left" class="fas fa-thumbs-up"></i><p style="text-decoration: underline;font-size:130%;margin-left:5%;margin-top:3.3%;cursor: pointer;">Bu Yazıyı Beğen</p>'+
           '</div>';
     
           for(var i = 0;guide.comments[i] != undefined;i++){
@@ -120,10 +164,10 @@ if (typeof window !== 'undefined') {
             '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+guide.comments[i].date+'</p>'+
             '<p style="height:8vh"></p>'+
             '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+guide.comments[i].comment+'</p>'+
-            '<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+            /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
                 '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
                 '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
-            '</div>'+
+            '</div>'+*/
         '</div><p></p>'
           }
 
@@ -162,6 +206,13 @@ db.collection('users').get().then(snapshot => {
 
 const authenticate = (data) => {
    user = "";
+
+   data.forEach((doc, index) => {
+    const guide = doc.data();
+
+
+
+   })
   
     data.forEach((doc, index) => {
       const guide = doc.data();
@@ -170,6 +221,36 @@ const authenticate = (data) => {
         console.log('Giriş Yapılmış');
         user = guide;
         var auth_button = document.getElementsByClassName('auth_button');
+
+        
+        var dbuser = db.collection("users").doc(user.username);
+        console.log(dbuser);
+      var tf = true;
+      
+      
+        dbuser.get().then(function(doc) {
+      
+          for(var i = 0;doc.data().liked[i] != undefined;i++){
+            
+            if(slg == doc.data().liked[i]){
+              tf = false;
+            }
+          }
+      
+          if( tf == false){
+            if (doc.exists) {
+      
+              var liked = doc.data().liked;
+              console.log(liked);
+              
+              //console.log([comments,{},{}])
+        var news = [];
+        
+        document.getElementById('like_pls').style.color = 'green';
+            }
+          }
+        });
+
 
         
         auth_button[0].parentNode.removeChild(auth_button[0]);
@@ -273,7 +354,7 @@ const signup = () => {
      var auth_button = document.getElementsByClassName('auth_button');
  
      auth_button[0].style.marginLeft = '110vw';
- 
+
      setTimeout(() => {
        auth_button[0].parentNode.removeChild(auth_button[0]);
        auth_button[0].parentNode.removeChild(auth_button[0]);
@@ -293,19 +374,26 @@ const signup = () => {
      Cookie.set('username', username);
      Cookie.set('password', password);
    
+     user = {
+      username: username,
+      email: email,
+      password: password,
+      liked: [],
+      disliked: [],
+      image: ""
+    }
      
        alert("Artık Hazırsın");
-   var newCityRef = db.collection("users").doc();
- 
-   newCityRef.set({
-     username: username,
-     email: email,
-     password: password,
-     liked: [],
-     disliked: [],
-     image: ""
-    });
- 
+  
+       db.collection('users').doc(username).set(
+        {
+          username,
+          email,
+          password,
+          image: '',
+          liked: []
+      }
+       );
     log_but.style = '';log_but.style.width = '0'; log_but.style.height = '0';log_but.innerHTML = '';
  
  
@@ -404,6 +492,15 @@ const signup = () => {
          }, 500);
          
  
+         user = {
+          username: guide.username,
+          email: guide.email,
+          password: guide.password,
+          liked: guide.liked,
+          disliked: guide.disliked,
+          image: guide.image
+        }
+
          Cookie.set('username', username);
          Cookie.set('password', password);
          
@@ -421,6 +518,98 @@ const signup = () => {
  }
  
 
+ function like (){
+
+  const mkk = () => {
+    var docRef = db.collection("posts").doc(slg);
+    //console.log(docRef.docs);
+    
+    docRef.get().then(function(doc) {
+      var likee = doc.data().like + 1;
+  
+
+  var dbuser = db.collection("users").doc(user.username);
+  console.log(dbuser);
+var tf = true;
+
+
+  dbuser.get().then(function(doc) {
+
+    for(var i = 0;doc.data().liked[i] != undefined;i++){
+      
+      if(slg == doc.data().liked[i]){
+        tf = false;
+      }
+    }
+
+    if( tf == true){
+      if (doc.exists) {
+
+        var liked = doc.data().liked;
+        console.log(liked);
+        
+        //console.log([comments,{},{}])
+  var news = [];
+  
+  document.getElementById('like_pls').style.color = 'green';
+
+        news[news.length] = slg;
+  
+        for(var i = 0;liked[i] != undefined;i++){
+          news[news.length] = liked[i];
+        }
+  
+        var updateTimestamp = dbuser.update({
+          liked: news
+        });
+      }
+      var updateTimestamp = docRef.update({
+        like: likee
+      });
+    }
+
+    else {
+      console.log('Bu yazıyı zaten beğenmişsiniz')
+    }
+    
+    
+  });
+  
+});
+  }
+  
+  if( user != "" ){
+    mkk();
+  }
+  
+  else {
+    var space = document.createElement('div');
+  var login_div = document.createElement('div');
+  
+  space.id = 'space';
+  login_div.id = 'logdiv'
+  
+  space.innerHTML = '<div onclick="var space = document.getElementById(\'space\');space.parentNode.removeChild(space);var logdiv = document.getElementById(\'logdiv\');logdiv.parentNode.removeChild(logdiv);" style="width:100vw;height:100vh;z-index:5;position:fixed;background:rgba(0,0,0,0.5);left:0;top:0;"></div>'
+  login_div.innerHTML = '<div data-aos="zoom-in" style="text-align:center;width:30vw;height:60vh;background:rgba(25,25,25,1);z-index:5;position:fixed;left:35vw;top:15vh;"><h1>Görünüşe Göre Oturum Açmamışsınız</h1><h2>Eğer adının ve fotoğrafının gözükmesini istiyorsan oturum açman gerek</h2><br /><button style="width:45%;height:10%;" id="yorum_kayit" class="auth_button">Kayıt Ol</button><br /><button style="width:45%;height:10%;" id="yorum_giris" class="auth_button">Giriş Yap</button></div>'
+  
+  document.body.appendChild(space);
+  document.body.appendChild(login_div);
+ 
+document.getElementById('yorum_giris').addEventListener('click', () => {
+  space.parentNode.removeChild(space);
+  login_div.parentNode.removeChild(login_div);
+  login();
+});
+
+document.getElementById('yorum_kayit').addEventListener('click', () => {
+  space.parentNode.removeChild(space);
+  login_div.parentNode.removeChild(login_div);
+  signup();
+});
+
+  }
+  
+}
 
 
 const BlogPost = ( { post }) => (
@@ -433,11 +622,18 @@ const BlogPost = ( { post }) => (
      <link rel="stylesheet" href="/all.css"></link>
      <script src="/all.js"></script>
     </Head>
-    <div id="navbar" style={{left: 0 }} class="navbar_fixed"><img onClick={()=> {location.href="/sad"}} src="/Logo.png" style= {{ cursor: 'pointer' ,marginLeft: '0.2%',width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
+    <div id="navbar" style={{left: 0 }} class="navbar_fixed"><img onClick= {() => {location.href = '/'}} src="/Logo.png" style= {{ position: 'fixed:', zIndex:'10', cursor: 'pointer' ,marginLeft: '0.2%',width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
     <div id="blog-pattern">
 
 
     </div>
+
+    <br />
+    <span id="like_number" style={{marginLeft: '10%', float: 'left', fontSize: '220%', paddingTop:'2%'}}>0</span>
+    <p id="like_pls" style={{ width:'40%'}}>
+      <i onClick = {() => {like()}} style={{cursor: 'pointer',width:'4.5vw',height:'4.5vh',marginBottom:'5vh',float:'left'}} className="fas fa-thumbs-up"></i>
+      <p style={{textDecoration: 'underline',fontSize:'130%',marginLeft:'5%',marginTop:'3.3%',cursor: 'pointer', paddingTop: '2.5%'}} onClick = {() => {like()}}>Bu Yazıyı Beğen</p>
+    </p>
     <div style={{ marginTop: '0vh' }} className="your_comment">
         <textarea id="textarea" style={{ marginLeft:'5vw' ,marginBottom: '0vh', border: 'none' ,width:'85%', resize: "none", height: 'unset', color: 'white', background: 'rgb(30,30,30)', fontSize: '120%', paddingTop: '0.5vw', paddingBottom: '1vw' }}></textarea><br />
     <button style={{marginBottom: '1vh'}} onClick={() => {makecommit(user.username,user.image,'19 Aralık 2020',document.getElementById("textarea").value)}} className="commit_button">Yorum Yap</button>

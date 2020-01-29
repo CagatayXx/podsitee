@@ -5,6 +5,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
 var Cookie = require('js-cookie');
+
+var user;
 /*
 import AOS from "aos";
 import "aos/dist/aos.css";*/
@@ -111,20 +113,29 @@ console.log(tblog);
 if (typeof window !== 'undefined') {
  AOS.init();
  
+ 
   var navbar_top=480;
  
  window.addEventListener("scroll",navbar_reset_top,false);
  
  function navbar_reset_top() {
+   
    var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
    if(scrollTop>navbar_top&&navbar.className==="navbar_absolute") {
      document.getElementById("navbar").className="navbar_fixed";
      document.getElementById("navbar").style.background="rgb(28,28,28)";
      document.getElementById('spc').style = "width: 1vw;height: 16vh";
+     if(document.getElementById('user-bg') != undefined){
+      document.getElementById('user-bg').style.marginLeft = '65vw';
+     }
+
      if(document.getElementsByClassName('user_image_div')[0] != undefined){
       document.getElementsByClassName('user_image_div')[0].style.marginTop = '-2vh';
       document.getElementById('username_p').style.paddingTop = '0vh';
-     }
+      }
+      else if( document.getElementsByClassName('b1') != undefined) {
+        document.getElementsByClassName('b1')[0].style.marginLeft = '59vw'
+      }
 
 
    }
@@ -132,10 +143,19 @@ if (typeof window !== 'undefined') {
      document.getElementById("navbar").className="navbar_absolute";
      document.getElementById("navbar").style.background="rgb(25,25,25)";
      document.getElementById('spc').style = "";
+
+     if(document.getElementById('user-bg') != undefined){
+      document.getElementById('user-bg').style.marginLeft = '67vw';
+      }
+
      if(document.getElementsByClassName('user_image_div')[0] != undefined){
      document.getElementsByClassName('user_image_div')[0].style.marginTop = '1vh';
      document.getElementById('username_p').style.paddingTop = '2.5vh';
      }
+
+     else if( document.getElementsByClassName('b1') != undefined) {
+      document.getElementsByClassName('b1')[0].style.marginLeft = '61vw'
+    }
    }
  }
  
@@ -156,8 +176,50 @@ if (!firebase.apps.length) {
  
    auth = firebase.auth();
    db = firebase.firestore();
+
+//   db.collection("users").add()
    
+   db.collection('users').get().then(snapshot => {
+
+    authenticate(snapshot.docs);
   
+  });
+  
+  const authenticate = (data) => {
+     user = "";
+    
+      data.forEach((doc, index) => {
+        const guide = doc.data();
+  
+        if(guide.username == Cookie.get('username') && guide.password == Cookie.get('password')){
+          console.log('Giriş Yapılmış');
+          user = guide;
+          var auth_button = document.getElementsByClassName('auth_button');
+  
+          
+          auth_button[0].parentNode.removeChild(auth_button[0]);
+          auth_button[0].parentNode.removeChild(auth_button[0]);
+  
+          setTimeout(() => {
+            if(guide.image==""){
+              document.getElementById('navbar').innerHTML += '<div class="user_info"><div id="user-bg" class="user-bg user_image_div" style="margin-left:55vw;float:left;background:gray;border-radius:50%;width:3.5vw;height:6vh;margin-top:-2vh"><i style="width:4.5vw;height:4.5vh;margin-left:-0.5vw;margin-top:0.25vw" class="fas fa-user"></i></div><p style="font-size:1.5vw;padding-top:-4vw;margin-top:1.5vw" id="username_p">&nbsp;'+guide.username+'</p></div>';
+            }
+            else {
+              document.getElementById('navbar').innerHTML += '<div class="user_info"><div id="user-bg" class="user-bg" style="margin-left:55vw;float:left;border-radius:50%;width:3.5vw;height:6vh;margin-top:1vh"><i style="width:4.5vw;height:4.5vh;margin-left:-0.5vw;margin-top:0.25vw"></i></div><img id="user_image_div" style="margin-left:-3.5vw;float:left;border-radius:50%;width:3.5vw;height:6vh;margin-top:1vh;" class="user_image user_image_div" src="'+guide.image+'"></img><p id="username_p" style="font-size:1.5vw;padding-top:2.5vh;">&nbsp;'+guide.username+'</p></div>';
+            }
+            
+            setTimeout(() => {
+            document.getElementById('user-bg').style.marginLeft = '67vw';
+            setTimeout(() => {
+            document.getElementById('user-bg').style.webkitTransition = '';
+            document.getElementById('user-bg').style.transition = '';  
+            }, 1500);
+            }, 10);
+          }, 500);
+          
+        }
+      })
+    }
 
 db.collection('posts').get().then(snapshot => {
  //console.log(snapshot.docs);
@@ -335,8 +397,8 @@ if(password == repassword){
       setTimeout(() => {
       document.getElementById('user-bg').style.marginLeft = '67vw';
       setTimeout(() => {
-      document.getElementById('user-bg').style.webkitTransition = undefined;
-      document.getElementById('user-bg').style.transition = undefined;  
+      document.getElementById('user-bg').style.webkitTransition = '';
+      document.getElementById('user-bg').style.transition = '';  
       }, 1500);
       }, 10);
     }, 500);
@@ -347,16 +409,17 @@ if(password == repassword){
   
     
       alert("Artık Hazırsın");
-  var newCityRef = db.collection("users").doc();
 
-  newCityRef.set({
-    username: username,
-    email: email,
-    password: password,
-    liked: [],
-    disliked: [],
-    image: ""
-   });
+
+      db.collection('users').doc(username).set(
+        {
+          username,
+          email,
+          password,
+          image: '',
+          liked: []
+      }
+       );
 
    log_but.style = '';log_but.style.width = '0'; log_but.style.height = '0';log_but.innerHTML = '';
 
@@ -445,12 +508,11 @@ if(space != undefined){
           else {
             document.getElementById('navbar').innerHTML += '<div class="user_info"><div id="user-bg" class="user-bg" style="margin-left:55vw;float:left;border-radius:50%;width:3.5vw;height:6vh;margin-top:1vh"><i style="width:4.5vw;height:4.5vh;margin-left:-0.5vw;margin-top:0.25vw"></i></div><img id="user_image_div" style="margin-left:-3.5vw;float:left;border-radius:50%;width:3.5vw;height:6vh;margin-top:1vh;" class="user_image user_image_div" src="'+guide.image+'"></img><p id="username_p" style="font-size:1.5vw;padding-top:2.5vh;">&nbsp;'+guide.username+'</p></div>';
           }
-          
+
           setTimeout(() => {
           document.getElementById('user-bg').style.marginLeft = '67vw';
           setTimeout(() => {
-          document.getElementById('user-bg').style.webkitTransition = undefined;
-          document.getElementById('user-bg').style.transition = undefined;  
+  
           }, 1500);
           }, 10);
         }, 500);
@@ -495,11 +557,17 @@ const Home = ({ posts }) => (
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script src="https://guzee.glitch.me/p5.speech.js"></script>
-<script src="https://guzee.glitch.me/sketch.js"></script> 
    </Head>
  
  <div>
- 
+
+<div data-aos="fade-in" id="akcay" className="akcay">
+ <div id="akcay_banner" className="akcay-banner">
+   <img src="/asistan.png" id="akcay_image" className="akcay-image"></img>
+  </div>
+  <p id="akcay_text" className="akcay-text"></p>
+</div>
+   
    <div data-aos='fade-in' style= {{ marginBottom: '-5vh', marginTop: '-5vh', marginLeft: '18vw', width: '32vw', height: '59vh', border: '1px solid rgb(25,25,25)'}}>
    <img style= {{ width: '100%', marginBottom: '-30%', height:'100%'}} src='/cerceve.gif'></img> 
    <img style= {{ marginLeft: '7.7%', width: '85%', marginTop: '-100%', height: '15vh'}} src="/gif.gif"></img>
@@ -510,7 +578,7 @@ const Home = ({ posts }) => (
  
 <div style={{ float: 'left', paddingLeft: '2vw', width: '1px', height:'1px', marginBottom: '0vh' }}></div>
  
-<div id="navbar" class="navbar_absolute" style= {{marginLeft:'-13.5vw'}}><img src="/Logo.png" style= {{ cursor: 'pointer' ,width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
+<div id="navbar" class="navbar_absolute" style= {{marginLeft:'-13.5vw'}}><img src="/Logo.png" style= {{ cursor: 'pointer' ,width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button b1' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
 <div id="spc"></div>
 <div id='alan1'></div>
  

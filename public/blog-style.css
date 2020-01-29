@@ -54,6 +54,10 @@ body {
     font-size: 48px;
 }
 
+.ziyaretci {
+    color: red;
+}
+
 .date {
     /*
     color: #cccccc;
