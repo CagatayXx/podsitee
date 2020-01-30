@@ -93,19 +93,37 @@ document.getElementById('ziyaretci').addEventListener('click', () => {
   
           document.getElementById('textarea').value = '';
   
-          document.getElementById('newcomment').innerHTML += '<div class="comment" style="margin-left:9vw;width:55vw;margin-bottom:6vh">'+
-              '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
-                  '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+uusername+'</p>'+
-              '</div>'+
-              '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+ddate+'</p>'+
-              '<p style="height:8vh"></p>'+
-              '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+ccomment+'</p>'+
-              '<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
-                  '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">0</p>'+
-                  '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">0</p>'+
-              '</div>'+
-          '</div><p></p>'
-  
+          if(user.image == ""){
+            document.getElementById('newcomment').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
+            '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
+                '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+user.username+'</p>'+
+            '</div>'+
+            '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+'20 Ekim 2020'+'</p>'+
+            '<p style="height:8vh"></p>'+
+            '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+ccomment+'</p>'+
+            /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+                '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
+                '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
+            '</div>'+*/
+        '</div><p></p>'
+            }
+
+            else {
+              document.getElementById('newcomment').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
+            '<div class="user" style="border-radius: 50%;width:4.2vw;height:7.3vh;float: left;">'+  
+              '<img id="user_image_div" style="margin-left:-0.2vw;float:left;border-radius:50%;width:4.3vw;float:left;height:7.5vh;margin-top:1vh;" class="user_image user_image_div" src="'+user.image+'"></img><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+user.username+'</p>'+
+            '</div>'+
+            '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+'20 Ekim 2020'+'</p>'+
+            '<p style="height:8vh"></p>'+
+            '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+ccomment+'</p>'+
+            /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+                '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
+                '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
+            '</div>'+*/
+        '</div><p></p>'
+            }
+
+
           //console.log(news);
           console.log("Yorumunuz başarıyla oluşturuldu.")
           var updateTimestamp = docRef.update({
@@ -157,6 +175,7 @@ if (typeof window !== 'undefined') {
           '</div>';
     
           for(var i = 0;guide.comments[i] != undefined;i++){
+            if(guide.comments[i].userimage == ""){
             document.getElementById('comments').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
             '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
                 '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+guide.comments[i].username+'</p>'+
@@ -169,6 +188,23 @@ if (typeof window !== 'undefined') {
                 '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
             '</div>'+*/
         '</div><p></p>'
+            }
+
+            else {
+              document.getElementById('comments').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
+            '<div class="user" style="border-radius: 50%;width:4.2vw;height:7.3vh;float: left;">'+  
+              '<img id="user_image_div" style="margin-left:-0.2vw;float:left;border-radius:50%;width:4.3vw;float:left;height:7.5vh;margin-top:1vh;" class="user_image user_image_div" src="'+guide.image+'"></img><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+guide.comments[i].username+'</p>'+
+            '</div>'+
+            '<p style="float:left;margin-left: 60%;margin-top: 6vh;color:lightgray">'+guide.comments[i].date+'</p>'+
+            '<p style="height:8vh"></p>'+
+            '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+guide.comments[i].comment+'</p>'+
+            /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+                '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
+                '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
+            '</div>'+*/
+        '</div><p></p>'
+            }
+
           }
 
         }
@@ -566,6 +602,9 @@ var tf = true;
       var updateTimestamp = docRef.update({
         like: likee
       });
+
+document.getElementById('like_number').innerHTML = likee;
+
     }
 
     else {

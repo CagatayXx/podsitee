@@ -18,24 +18,47 @@
     background-color: rgb(28,28,28);
   }
 
-.akcay {
+.tutacak {
     position:fixed;
     z-index:10;
-    right: -12.5vw;
-    top: 1.8vh;
-    width:15vw;
+    width: 10vw;
+margin-left: 82.5vw;
+margin-top: 1.8vh;
+
+-webkit-transition: margin 1s; /* For Safari 3.1 to 6.0 */
+    transition: margin 1s; 
 }
+
+.tutacak:hover {
+    margin-left:81vw;
+}
+
+
+
+.akcay {
+margin-top: -2.3vh;
+}
+
+/*.akcay:hover {
+    margin-left: 70vw;
+    border: 3px solid red;
+
+}*/
+
 
 .akcay-banner {
     width: 100%;
     height:4vh;
     background: linear-gradient(to right, #f6cb99 0%, #cc6605 127%);
     border-radius: 15px 0 0 15px;
+    float: left;
+    padding-left: -5vw;
 }
 
 .akcay-image {
-width:15%;
+width:2vw;
 height:100%;
+float:left;
 padding-left: 1%;
 margin-left:-0.8%;
 border-radius: 15px 0 0 20px ;

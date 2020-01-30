@@ -13,7 +13,6 @@ require('firebase/firestore');
 
 var markdown = require( "markdown" ).markdown;
 
-
 const deneme = (n,i,t) => {
 
 /*onmouseover="
@@ -112,12 +111,13 @@ var app = firebase.initializeApp({
  db.collection('password').get().then(snapshot => {
   control(snapshot.docs);
 
+  
    function control(daat){
     daat.forEach((doc, index) => {
       const guide = doc.data();
 
       if(username == guide.username && email == guide.email && password == guide.password){
-        loged(guide);
+        lged(guide);
         tf = true;
       }
     });  
@@ -126,6 +126,63 @@ var app = firebase.initializeApp({
     }
   }
 });
+function lged() {
+
+  var area = document.getElementById('login_div');area.parentNode.removeChild(area);
+
+  var fss = [];
+  
+  db.collection('posts').get().then(snapshot => {
+    setupGuides(snapshot.docs);
+  
+  });
+
+  const setupGuides = (data) => {
+
+    data.forEach((doc, index) => {
+      const guide = doc.data();
+
+      document.getElementById('alan').innerHTML += '<div data-aos="fade-up" class="miniblog">'+
+      '<div style="margin-left: 0vw;width:18vw;height: 44vh;overflow: hidden;text-align: center; float: left;margin-right: 5vw">'+
+          '<img class="mini-image" style="border-radius: 5px;width:100%;height:45%;" src="'+guide.image+'"></img>'+
+          '<div class="text"><p class="title" style="padding-top: 0.5vh;font-weight: bold;font-size: 200%;text-align:center;margin:0;margin-bottom: -1.5vh">'+guide.title+'</p>'+
+          '<p style="font-size: 120%">'+guide.details+'</p>'+
+      '</div>'+
+      '</div>'+
+      '<div class="mini-overlay"><span><i  style="cursor: pointer; margin-right: 1vw; margin-left: 1vw; font-size: 250%;height: 2.5vw;" class="fas fa-edit"></i></span><span><i  style="cursor: pointer; margin-right: 1vw; margin-left: 9vw; font-size: 250%;height: 2.5vw;" class="fas fa-times-circle"></i></span></div>'+
+      '</div>';
+
+      fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].addEventListener("mouseover", function(){
+        deneme(index,'over','mini');
+      });
+      }
+      
+      fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].addEventListener("mouseout", function(){
+      deneme(index,'out','mini');
+      //console.log(this.getElementsByTagName('span'));
+      })}
+
+      fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].getElementsByTagName('span')[0].addEventListener('click', () => {
+        edit(guide);
+      })}
+
+      fss[fss.length] = () => {document.getElementsByClassName('miniblog')[index].getElementsByTagName('span')[1].addEventListener('click', () => {
+        del(guide);
+      })}
+  
+    })
+//  document.getElementById('alan');
+
+for(var i = 0;fss[i] != undefined;i++){
+  fss[i]();
+}
+
+  }
+
+  
+  
+}
+
 function loged(dat) {
 
   var area = document.getElementById('login_div');area.parentNode.removeChild(area);
@@ -195,6 +252,9 @@ for(var i = 0;fss[i] != undefined;i++){
 
 
 const edit = (pos) => {
+
+console.log(pos);
+
   var space = document.createElement('div');
   var editArea = document.createElement('div');
 
@@ -204,11 +264,68 @@ const edit = (pos) => {
   space.style = 'width:100vw;height:100vh;z-index:1;position: fixed;background:rgba(5,5,5,0.7);top:0;left:0;';
   space.innerHTML = '<div ondblclick="var space = document.getElementById(\'space\');var el = document.getElementById(\'editArea\');el.parentNode.removeChild(el);space.parentNode.removeChild(space);" style="width:100vw;height:100vh;"></div>'
 
-  editArea.style = 'overflow: hidden;width:50vw;height:95vh;margin-left:25vw;margin-top:-68vh;background:rgb(25,25,25);position:fixed;z-index:2;padding:0;'
-  editArea.innerHTML ='<input style="margin-left:0;" type="text" value="'+pos.title+'"></input><br /><input type="text" value="'+pos.image+'"></input><br /><input type="text" value="'+pos.audio+'"></input><br /><textarea>'+pos.details+'</textarea><br /><input type="text" value="'+pos.date+'"></input>';
+  editArea.style = 'overflow-y:auto;overflow-x: hidden;width:95vw;height:90vh;margin-left:2.5vw;margin-top:-63vh;background:rgb(25,25,25);position:fixed;z-index:2;padding:0;<iframe name="textarea" style="width:100%;border:1px solid black;height:60%;"></iframe>'
+  editArea.innerHTML = '<div class="control-panel" style="width:100%;height:4.5%;background:lightgray;"></div>'+
+  '<p style="margin-top:1.5vh;font-size:250%;padding-left:6%;margin-bottom:0">Başlık</p><input value="'+pos.title+'" style="width:90%;margin-left:5%;height:5.5%;background:rgb(25,25,25);border:1px solid white;color:white;padding-left:1%;">'+
+
+  '<br /><span style="font-size:150%;margin-top:1%;margin-left:6.5%">Blog Resmi</span><input value="'+pos.image+'" style="width:15%;margin-top:1%;margin-left:1%;height:5.5%;background:rgb(25,25,25);border:1px solid white;color:white;padding-left:1%;">'+
+  '<span style="font-size:150%;margin-top:1%;margin-left:3%">Blog Podcast\'i</span><input value="'+pos.audio+'" style="width:15%;margin-top:1%;margin-left:1%;height:5.5%;background:rgb(25,25,25);border:1px solid white;color:white;padding-left:1%;"></input>'+
+  '<span style="font-size:150%;margin-top:1%;margin-left:3%">Blog Adresi</span><input value="'+pos.slug+'" style="width:15%;margin-top:1%;margin-left:1%;height:5.5%;background:rgb(25,25,25);border:1px solid white;color:white;padding-left:1%;"></input>'+
   
+  '<div id="iframe_resizer" style="float:left;padding:0;margin-top:3vh;width:60%;height:80%;overflow-y: hidden;overflow-x:hidden;"><iframe name="textarea" style="float:left;width:100%;height:100%;border:1px solid white;color:white"></iframe></div>'+
+  '<div id="bloghtml" style="margin-bottom:2%;overflow:auto;float:left;margin-top:3vh;height:80%;width:40%;background:rgb(65,65,65);color:black;">asd</div>'+
+  
+  '<div data-aos="zoom-in"  class="blog" style="margin-left:1%;width:0">'+
+  '<img class="image" src="'+pos.image+'" style=\'width:18vw;height: 18vh;float: left;margin-right: 0.5vw;border-radius: 5px\'></img>'+
+  '<div class="text" style=\'width: 70vw;height:15vh;\'>'+
+      '<p class="title" style=\'padding-top: 0.5vh;font-weight: bold; font-size: 200%; margin:0vw\'>&nbsp;&nbsp;'+pos.title+'</p>'+
+      '<p class="intext"> '+pos.details+'</p>'+
+      '<p class="date">'+pos.data+'</p>'+
+  '</div>'+
+  '<div class="overlay"><span onclick="document.getElementsByTagName(\'audio\')['+0+'].play();"><i style="cursor: pointer; width: 2.2vw;margin-left: 0.3vw; margin-right: 0.2vw;" class="fas fa-play"></i></span><span onclick="document.getElementsByTagName(\'audio\')['+0+'].pause();"><i  style="cursor: pointer; width: 2.2vw;margin-left: 0.2vw; margin-right: 0.2vw;" class="fas fa-pause"></i></span><span onclick="location.href = \''+''+'\'"><i  style="cursor: pointer; width: 3vw;margin-left: 0.2vw; margin-right: 0.5vw;" class="fas fa-eye"></i></span></div>'+
+  '<audio style= "visibility: hidden" class="audi" controls>'+
+          '<source src= "'+pos.audio+'" type="audio/ogg"></source>'+
+        'Your browser does not support the audio element.'+
+        '</audio>'+
+  '</div>'+
+
+  '<div data-aos="fade-up" style="margin-left:78%" class="miniblog">'+
+        '<div style="margin-left: 0vw;width:18vw;height: 44vh;overflow: hidden;text-align: center;margin-right: 5vw;">'+
+            '<img class="mini-image" style="border-radius: 5px;width:100%;height:45%;" src="'+pos.image+'"></img>'+
+            '<div class="text"><p class="title" style="padding-top: 0.5vh;font-weight: bold;font-size: 200%;text-align:center;margin:0;margin-bottom: -1.5vh">'+pos.title+'</p>'+
+            '<p style="font-size: 120%">'+pos.details+'</p>'+
+        '</div>'+
+        '</div>'+
+        '<div class="mini-overlay"><span><i  style="cursor: pointer; margin-right: 1vw; margin-left: 1vw; font-size: 250%;height: 2.5vw;" class="fas fa-edit"></i></span><span><i  style="cursor: pointer; margin-right: 1vw; margin-left: 9vw; font-size: 250%;height: 2.5vw;" class="fas fa-times-circle"></i></span></div>'+
+        '</div>'+
+
+        '<div style="width:100%;height:1%;margin-bottom: 10%;"></div>'+
+          '<div class="comment_edit"></div>'
+
+
   document.body.appendChild(space);
   document.body.appendChild(editArea);
+
+
+  for(var i = 0; pos.comments[i] != undefined;i++){
+    document.getElementById('comment_edit').innerHTML += '';
+  }
+
+
+    
+    textarea.document.body.style.background = 'rgb(230,230,230)';
+    textarea.document.designMode = "on";
+    textarea.document.body.style.overflow = 'scroll';
+    textarea.document.body.innerHTML = pos.details;
+    
+    
+    function myFunction(event) {
+      if (event.keyCode == 16) {
+        // Execute command if user presses the SHIFT button:
+        document.execCommand("bold");
+      }
+    }
+     
 }
 
 const del = () => {

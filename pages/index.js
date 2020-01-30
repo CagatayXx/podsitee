@@ -126,14 +126,14 @@ if (typeof window !== 'undefined') {
      document.getElementById("navbar").style.background="rgb(28,28,28)";
      document.getElementById('spc').style = "width: 1vw;height: 16vh";
      if(document.getElementById('user-bg') != undefined){
-      document.getElementById('user-bg').style.marginLeft = '65vw';
+      document.getElementById('user-bg').style.marginLeft = '63vw';
      }
 
      if(document.getElementsByClassName('user_image_div')[0] != undefined){
       document.getElementsByClassName('user_image_div')[0].style.marginTop = '-2vh';
       document.getElementById('username_p').style.paddingTop = '0vh';
       }
-      else if( document.getElementsByClassName('b1') != undefined) {
+      else if( document.getElementsByClassName('b1')[0].style != undefined) {
         document.getElementsByClassName('b1')[0].style.marginLeft = '59vw'
       }
 
@@ -211,8 +211,8 @@ if (!firebase.apps.length) {
             setTimeout(() => {
             document.getElementById('user-bg').style.marginLeft = '67vw';
             setTimeout(() => {
-            document.getElementById('user-bg').style.webkitTransition = '';
-            document.getElementById('user-bg').style.transition = '';  
+           /* document.getElementById('user-bg').style.webkitTransition = '';
+            document.getElementById('user-bg').style.transition = '';  */
             }, 1500);
             }, 10);
           }, 500);
@@ -397,8 +397,8 @@ if(password == repassword){
       setTimeout(() => {
       document.getElementById('user-bg').style.marginLeft = '67vw';
       setTimeout(() => {
-      document.getElementById('user-bg').style.webkitTransition = '';
-      document.getElementById('user-bg').style.transition = '';  
+    /*  document.getElementById('user-bg').style.webkitTransition = '';
+      document.getElementById('user-bg').style.transition = '';  */
       }, 1500);
       }, 10);
     }, 500);
@@ -561,11 +561,14 @@ const Home = ({ posts }) => (
  
  <div>
 
+<div className='tutacak'>
+
 <div data-aos="fade-in" id="akcay" className="akcay">
- <div id="akcay_banner" className="akcay-banner">
+ <div id="akcay_banner" style={{float: 'left'}} className="akcay-banner">
    <img src="/asistan.png" id="akcay_image" className="akcay-image"></img>
   </div>
   <p id="akcay_text" className="akcay-text"></p>
+</div>
 </div>
    
    <div data-aos='fade-in' style= {{ marginBottom: '-5vh', marginTop: '-5vh', marginLeft: '18vw', width: '32vw', height: '59vh', border: '1px solid rgb(25,25,25)'}}>
