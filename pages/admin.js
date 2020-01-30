@@ -253,6 +253,8 @@ for(var i = 0;fss[i] != undefined;i++){
 
 const edit = (pos) => {
 
+  var fss = [];
+
 console.log(pos);
 
   var space = document.createElement('div');
@@ -264,7 +266,7 @@ console.log(pos);
   space.style = 'width:100vw;height:100vh;z-index:1;position: fixed;background:rgba(5,5,5,0.7);top:0;left:0;';
   space.innerHTML = '<div ondblclick="var space = document.getElementById(\'space\');var el = document.getElementById(\'editArea\');el.parentNode.removeChild(el);space.parentNode.removeChild(space);" style="width:100vw;height:100vh;"></div>'
 
-  editArea.style = 'overflow-y:auto;overflow-x: hidden;width:95vw;height:90vh;margin-left:2.5vw;margin-top:-63vh;background:rgb(25,25,25);position:fixed;z-index:2;padding:0;<iframe name="textarea" style="width:100%;border:1px solid black;height:60%;"></iframe>'
+  editArea.style = 'overflow-y:auto;overflow-x: hidden;width:95vw;height:100vh;margin-left:2.5vw;margin-top:-66.2vh;background:rgb(25,25,25);position:fixed;z-index:2;padding:0;<iframe name="textarea" style="width:100%;border:1px solid black;height:60%;"></iframe>'
   editArea.innerHTML = '<div class="control-panel" style="width:100%;height:4.5%;background:lightgray;"></div>'+
   '<p style="margin-top:1.5vh;font-size:250%;padding-left:6%;margin-bottom:0">Başlık</p><input value="'+pos.title+'" style="width:90%;margin-left:5%;height:5.5%;background:rgb(25,25,25);border:1px solid white;color:white;padding-left:1%;">'+
 
@@ -275,12 +277,12 @@ console.log(pos);
   '<div id="iframe_resizer" style="float:left;padding:0;margin-top:3vh;width:60%;height:80%;overflow-y: hidden;overflow-x:hidden;"><iframe name="textarea" style="float:left;width:100%;height:100%;border:1px solid white;color:white"></iframe></div>'+
   '<div id="bloghtml" style="margin-bottom:2%;overflow:auto;float:left;margin-top:3vh;height:80%;width:40%;background:rgb(65,65,65);color:black;">asd</div>'+
   
-  '<div data-aos="zoom-in"  class="blog" style="margin-left:1%;width:0">'+
+  '<div data-aos="zoom-in"  class="blog" style="margin-left:10%;width:40vw">'+
   '<img class="image" src="'+pos.image+'" style=\'width:18vw;height: 18vh;float: left;margin-right: 0.5vw;border-radius: 5px\'></img>'+
   '<div class="text" style=\'width: 70vw;height:15vh;\'>'+
       '<p class="title" style=\'padding-top: 0.5vh;font-weight: bold; font-size: 200%; margin:0vw\'>&nbsp;&nbsp;'+pos.title+'</p>'+
       '<p class="intext"> '+pos.details+'</p>'+
-      '<p class="date">'+pos.data+'</p>'+
+      '<p class="date">'+pos.date+'</p>'+
   '</div>'+
   '<div class="overlay"><span onclick="document.getElementsByTagName(\'audio\')['+0+'].play();"><i style="cursor: pointer; width: 2.2vw;margin-left: 0.3vw; margin-right: 0.2vw;" class="fas fa-play"></i></span><span onclick="document.getElementsByTagName(\'audio\')['+0+'].pause();"><i  style="cursor: pointer; width: 2.2vw;margin-left: 0.2vw; margin-right: 0.2vw;" class="fas fa-pause"></i></span><span onclick="location.href = \''+''+'\'"><i  style="cursor: pointer; width: 3vw;margin-left: 0.2vw; margin-right: 0.5vw;" class="fas fa-eye"></i></span></div>'+
   '<audio style= "visibility: hidden" class="audi" controls>'+
@@ -289,7 +291,7 @@ console.log(pos);
         '</audio>'+
   '</div>'+
 
-  '<div data-aos="fade-up" style="margin-left:78%" class="miniblog">'+
+  '<div data-aos="fade-up" style="margin-left:40%;margin-top:15vh" class="miniblog">'+
         '<div style="margin-left: 0vw;width:18vw;height: 44vh;overflow: hidden;text-align: center;margin-right: 5vw;">'+
             '<img class="mini-image" style="border-radius: 5px;width:100%;height:45%;" src="'+pos.image+'"></img>'+
             '<div class="text"><p class="title" style="padding-top: 0.5vh;font-weight: bold;font-size: 200%;text-align:center;margin:0;margin-bottom: -1.5vh">'+pos.title+'</p>'+
@@ -300,18 +302,51 @@ console.log(pos);
         '</div>'+
 
         '<div style="width:100%;height:1%;margin-bottom: 10%;"></div>'+
-          '<div class="comment_edit"></div>'
+          '<div id="comment_edit"></div>'
 
 
   document.body.appendChild(space);
   document.body.appendChild(editArea);
 
+  
+
+for(var i = 0;pos.comments[i] != undefined;i++){
+  if(pos.comments[i].userimage == ""){
+    document.getElementById('comment_edit').innerHTML += '<div onmouseover="this.style.background=\'rgba(0,0,0,0.7)\';this.getElementsByClassName(\'butonn\')[0].style.color = \'white\'" onmouseout="this.style.background=\'rgba(0,0,0,0)\';this.getElementsByClassName(\'butonn\')[0].style.color = \'rgba(0,0,0,0)\'" data-aos="zoom-in" data-aos-delay="500" class="comment" style="border-radius:15px;padding-left:1%;margin-left:25%;width:55%;margin-bottom:6vh">'+
+    '<div class="butonn" style="-webkit-transition: color 0.4s;transition: color 0.4s;color: rgba(0,0,0,0);position:absolute;"><span><i style="width:6vw;height:6vh;margin-left:47.5vw" class="fas fa-times-circle"></i></span></div>'+
+    '<div class="user" style="border-radius: 50%;margin-top:1vh;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
+        '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+pos.comments[i].username+'</p>'+
+    '</div>'+
+    '<p style="float:left;margin-left: 30%;margin-top: 6vh;color:lightgray">'+pos.comments[i].date+'</p>'+
+    '<p style="height:8vh"></p>'+
+    '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+pos.comments[i].comment+'</p>'+
+    /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+        '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
+        '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
+    '</div>'+*/
+'</div><p></p>'
+    }
+
+    else {
+      document.getElementById('comment_edit').innerHTML += '<div onmouseover="this.style.background=\'rgba(0,0,0,0.7)\';this.getElementsByClassName(\'butonn\')[0].style.color = \'white\'" onmouseout="this.style.background=\'rgba(0,0,0,0)\';this.getElementsByClassName(\'butonn\')[0].style.color = \'rgba(0,0,0,0)\'" class="comment" data-aos="zoom-in" data-aos-delay="500" style="border-radius:15px;padding-left:1%;margin-left:25%;width:55%;margin-bottom:6vh">'+
+    '<div class="user" style="border-radius: 50%;width:4.2vw;height:7.3vh;float: left;">'+  
+    '<div class="butonn" style="-webkit-transition: color 0.4s;transition: color 0.4s;color: rgba(0,0,0,0);position:absolute;"><span><i style="width:6vw;height:6vh;margin-left:47.5vw" class="fas fa-times-circle"></i></span></div>'+  
+    '<img id="user_image_div" style="margin-left:-0.2vw;float:left;border-radius:50%;width:4.3vw;float:left;height:7.5vh;margin-top:1vh;" class="user_image user_image_div" src="'+pos.image+'"></img><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+pos.comments[i].username+'</p>'+
+    '</div>'+
+    '<p style="float:left;margin-left: 30%;margin-top: 6vh;color:lightgray">'+pos.comments[i].date+'</p>'+
+    '<p style="height:8vh"></p>'+
+    '<p style="max-height:15vh;margin-left: -0.5vw;width:50vw;margin-top: -0.5vw;overflow: auto;font-size:150%;">'+pos.comments[i].comment+'</p>'+
+    /*'<div class="like" style="margin-top: -1%;margin-left:70%;font-size: 150%;">'+
+        '<i style="cursor: pointer;width:12%;height:12%;float:left" class="fas fa-thumbs-up"></i><p style="margin-right: 10%;margin-left:1%;margin-top:1%;float:left">'+guide.comments[i].like+'</p>'+
+        '<i style=";margin-top:3%;float:left;cursor: pointer;width:12%;height:12%;margin-right:1.5%" class="fas fa-thumbs-down"></i><p style="margin-top:1%;margin-left:10%;">'+guide.comments[i].dislike+'</p>'+
+    '</div>'+*/
+'</div><p></p>'
+    }
+}
 
   for(var i = 0; pos.comments[i] != undefined;i++){
     document.getElementById('comment_edit').innerHTML += '';
   }
-
-
     
     textarea.document.body.style.background = 'rgb(230,230,230)';
     textarea.document.designMode = "on";
@@ -319,13 +354,22 @@ console.log(pos);
     textarea.document.body.innerHTML = pos.details;
     
     
-    function myFunction(event) {
-      if (event.keyCode == 16) {
-        // Execute command if user presses the SHIFT button:
-        document.execCommand("bold");
-      }
+    for(var i = 0; document.getElementsByClassName('comment')[i] != undefined;i++){
+      fss[fss.length] = () => {document.getElementsByClassName('comment')[i].addEventListener('mouseover', () => {
+        var asd = i;
+        console.log(asd);
+      });
     }
-     
+
+    }
+
+ 
+    for(var i = 0;fss[i]!= undefined;i++){
+      fss[i]();
+      console.log('spawn');
+    }
+    
+
 }
 
 const del = () => {

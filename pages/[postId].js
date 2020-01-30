@@ -142,7 +142,7 @@ else {
 
 
 if (typeof window !== 'undefined') {
-  //AOS.init()
+  AOS.init()
 
   const setupGuides = (data) => {
     var tf = false;
@@ -163,12 +163,14 @@ if (typeof window !== 'undefined') {
             document.getElementById('like_number').innerHTML = guide.like;
 
           document.getElementById('blog-pattern').innerHTML = '<div class="blog">'+
-          '<h2 class="blog-title" style="margin-top: 11vh;">'+
+          '<h2 data-aos="fade-left" class="blog-title" style="margin-top: 11vh;">'+
           '<a class="title">'+guide.title+'</a>'+
           '</h2>'+
           '<div class="blog-text">'+
-          '<img class="blog-image" src="'+guide.image+'"></img>'+
-          '<p class="text">'+guide.details+'</p>'+
+          '<img data-aos="fade-up" class="blog-image" src="'+guide.image+'"></img><br />'+
+          '<audio id="aud" style="visibility:visible;height:0;margin:0;" controls><source src="'+guide.audio+'" type="audio/ogg">Your browser does not support the audio element.</audio><br />'+
+          '<div class="audio_div" style="border-radius: 15px;background:rgba(0,0,0,0.5);height:6.5vh;margin-top:-1vh;margin-bottom:-1vh"><span style="margin-left:21vw;" onclick="document.getElementById(\'aud\').play();" style="cursor:pointer"><i style="width:5.5vw;cursor:pointer;height:5.5vh;margin-top:0.5vh" class="fas fa-play"></i></span><span style="margin-left:0.1vw;" onclick="document.getElementById(\'aud\').pause();" style="cursor:pointer"><i style="margin-left:-2.5vw;cursor:pointer;width:5.5vw;height:5.5vh;margin-top:0.5vh" class="fas fa-pause"></i></span></div>'+
+          '<p data-aos="fade-left" class="text">'+guide.details+'</p>'+
           '<div style="color:white" class="date">'+guide.date+'</div>'+
           '</div>'+
           //'<p></p><i style="cursor: pointer;width:4.5%;height:4.5%;margin-bottom:5vh;float:left" class="fas fa-thumbs-up"></i><p style="text-decoration: underline;font-size:130%;margin-left:5%;margin-top:3.3%;cursor: pointer;">Bu Yazıyı Beğen</p>'+
@@ -176,7 +178,7 @@ if (typeof window !== 'undefined') {
     
           for(var i = 0;guide.comments[i] != undefined;i++){
             if(guide.comments[i].userimage == ""){
-            document.getElementById('comments').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
+            document.getElementById('comments').innerHTML += '<div data-aos="zoom-in" data-aos-delay="500" class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
             '<div class="user" style="border-radius: 50%;background-color: rgb(97, 97, 97);width:4.2vw;height:7.3vh;float: left;">'+
                 '<i style="font-size: 250%;margin-left: 0.5vw;margin-top: 0.4vh;color:white;width:80%;height:80%;" class="fas fa-user"></i><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+guide.comments[i].username+'</p>'+
             '</div>'+
@@ -191,7 +193,7 @@ if (typeof window !== 'undefined') {
             }
 
             else {
-              document.getElementById('comments').innerHTML += '<div class="comment" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
+              document.getElementById('comments').innerHTML += '<div class="comment" data-aos="zoom-in" data-aos-delay="500" style="margin-left:9vw;width:85%;margin-bottom:6vh">'+
             '<div class="user" style="border-radius: 50%;width:4.2vw;height:7.3vh;float: left;">'+  
               '<img id="user_image_div" style="margin-left:-0.2vw;float:left;border-radius:50%;width:4.3vw;float:left;height:7.5vh;margin-top:1vh;" class="user_image user_image_div" src="'+guide.image+'"></img><p style="margin-top: -5vh;margin-left: 5vw;font-size: 180%;margin-right: 1vw;float: left;">'+guide.comments[i].username+'</p>'+
             '</div>'+
@@ -655,20 +657,26 @@ const BlogPost = ( { post }) => (
 
   <div className="container">
     <Head>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+
       <link rel="icon" href="/favicon.ico" />
       <link rel='stylesheet' href='/blog-style.css'></link>
            <link rel="stylesheet" href="/style.css"></link>
      <link rel="stylesheet" href="/all.css"></link>
      <script src="/all.js"></script>
     </Head>
-    <div id="navbar" style={{left: 0 }} class="navbar_fixed"><img onClick= {() => {location.href = '/'}} src="/Logo.png" style= {{ position: 'fixed:', zIndex:'10', cursor: 'pointer' ,marginLeft: '0.2%',width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
+    <div id="navbar" style={{left: 0 }} class="navbar_fixed"><img data-aos="zoom-in" onClick= {() => {location.href = '/'}} src="/Logo.png" style= {{ position: 'fixed:', zIndex:'10', cursor: 'pointer' ,marginLeft: '0.2%',width:'19.7vw', height: '100%', float: 'left', marginTop: '0.1vw'}}></img><button style={{marginLeft: '61vw'}} className='auth_button' onClick={() => {signup()}}>Kayıt Ol</button><button className='auth_button' onClick={() => {login()}}>Giriş Yap</button></div>
     <div id="blog-pattern">
 
 
     </div>
 
     <br />
-    <span id="like_number" style={{marginLeft: '10%', float: 'left', fontSize: '220%', paddingTop:'2%'}}>0</span>
+    <div data-aos="zoom-in">
+    <span id="like_number" style={{marginLeft: '10%', float: 'left', fontSize: '220%', paddingTop:'0.5%'}}>0</span>
     <p id="like_pls" style={{ width:'40%'}}>
       <i onClick = {() => {like()}} style={{cursor: 'pointer',width:'4.5vw',height:'4.5vh',marginBottom:'5vh',float:'left'}} className="fas fa-thumbs-up"></i>
       <p style={{textDecoration: 'underline',fontSize:'130%',marginLeft:'5%',marginTop:'3.3%',cursor: 'pointer', paddingTop: '2.5%'}} onClick = {() => {like()}}>Bu Yazıyı Beğen</p>
@@ -676,6 +684,7 @@ const BlogPost = ( { post }) => (
     <div style={{ marginTop: '0vh' }} className="your_comment">
         <textarea id="textarea" style={{ marginLeft:'5vw' ,marginBottom: '0vh', border: 'none' ,width:'85%', resize: "none", height: 'unset', color: 'white', background: 'rgb(30,30,30)', fontSize: '120%', paddingTop: '0.5vw', paddingBottom: '1vw' }}></textarea><br />
     <button style={{marginBottom: '1vh'}} onClick={() => {makecommit(user.username,user.image,'19 Aralık 2020',document.getElementById("textarea").value)}} className="commit_button">Yorum Yap</button>
+        </div>
         </div>
         <div id="newcomment"></div>
     <div id="comments">

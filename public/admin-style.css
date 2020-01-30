@@ -12,6 +12,11 @@ textarea {
     color: white;
     resize: none;
 }
+
+.comment {
+    -webkit-transition: background-color 0.4s;
+    transition: background-color 0.4s;
+}
   
 input {
     width: 50vw;
